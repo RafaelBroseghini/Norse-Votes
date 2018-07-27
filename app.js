@@ -39,8 +39,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(process.env.PORT || 3000, function(){
-  console.log("Vote on port 3000!")
-})
-
-// module.exports = app;
+module.exports = app;
