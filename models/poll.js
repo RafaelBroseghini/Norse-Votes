@@ -5,7 +5,7 @@ let pollSchema = new mongoose.Schema({
   choices:[
     {
     value: String,
-    vote: Number
+    votes: Number
     }
   ]
 })

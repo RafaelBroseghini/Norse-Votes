@@ -1,4 +1,50 @@
 <!-- Create card -->
 <% include partials/header %>
 
+<div class="container">
+    <div class="carousel carousel-slider  z-depth-5">
+        <% polls.forEach(function (poll){%>
+            <div class="carousel-item  white-text " href="#one!">
+                <div class="row">
+                    <form onsubmit="vote(event)" id="<%=poll._id%>">
+                        <div class="col s12 m12">
+                            <div class="card blue-grey darken-1">
+                                <div class="card-content white-text">
+                                    <h2><%=poll.topic%></h2>
+                                </div>
+                            </div>
+                            <% poll.choices.forEach(function (choice){%>
+                                <p>
+                                    <label>
+                                    <input class="with-gap" name="optionsRadios" type="radio" value="<%=choice.value%>"/>
+                                    <span><%=choice.value%></span>
+                                    <span id="vote-count-<%=poll._id%>-<%=choice.value%>" class="right"><%=choice.votes%></span>
+                                    </label>
+                                </p>                                    
+                                <%})%>
+                            <button id="vote-btn-<%=poll._id%>" class="left btn waves-effect waves-light" type="submit" name="action">Vote
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <%})%>   
+    </div>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+        var vote = function (event) {
+            var pollId = event.target.id;
+            var choice = event.target.optionsRadios.value;
+            axios.post('/' + pollId + '/vote', {choice: choice});
+
+            // disable the button, so a user san't vote twice
+            document.querySelector('#vote-btn-' + pollId).disabled = true;
+            var voteCount = document.querySelector('#vote-count-' + pollId + '-' + choice);
+            voteCount.textContent++;
+            voteCount.style.color = 'green';
+            voteCount.style.fontWeight = '900';
+        };
+    </script>
 <% include partials/footer %>
