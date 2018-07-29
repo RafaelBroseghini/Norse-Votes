@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+$(document).ready(function() {
+  $("input[name='topic'], input[name='choice1'],input[name='choice2'],input[name='choice3']").characterCounter();
+});
+
 // var instance = M.Carousel.init({
 //   fullWidth: true,
 //   indicators: true
