@@ -4,11 +4,11 @@
 <div class="container">
     <div class="carousel carousel-slider  z-depth-5">
         <% polls.forEach(function (poll){%>
-            <div class="carousel-item  white-text " href="#one!">
+            <div class="carousel-item white-text" >
                 <div class="row">
                     <form onsubmit="vote(event)" id="<%=poll._id%>">
                         <div class="col s12 m12">
-                            <div class="card blue-grey darken-1">
+                            <div class="card blue darken-1">
                                 <div class="card-content white-text">
                                     <h2><%=poll.topic%></h2>
                                 </div>
@@ -19,7 +19,7 @@
                                     <label>
                                     <input class="with-gap" name="optionsRadios" type="radio" value="<%=choice.value%>" data-id="<%=choice._id%>"/>
                                     <span><%=choice.value%></span>
-                                    <span id="vote-count-<%=poll._id%>-<%=choice.value%>" class="right"><%=choice.votes%></span>
+                                    <span id="vote-count-<%=poll._id%>-<%=choice.value%>" class="right badge"><%=choice.votes%></span>
                                     </label>
                                 </p>                                    
                                 <%})%>
