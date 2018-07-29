@@ -16,13 +16,13 @@
                             <% poll.choices.forEach(function (choice){%>
                                 <p>
                                     <label>
-                                    <input class="with-gap" name="optionsRadios" type="radio" value="<%=choice.value%>"/>
+                                    <input class="with-gap" name="optionsRadios" type="radio" value="<%=choice.value%>" data-id="<%=choice._id%>"/>
                                     <span><%=choice.value%></span>
                                     <span id="vote-count-<%=poll._id%>-<%=choice.value%>" class="right"><%=choice.votes%></span>
                                     </label>
                                 </p>                                    
                                 <%})%>
-                            <button id="vote-btn-<%=poll._id%>" class="left btn waves-effect waves-light" type="submit" name="action">Vote
+                            <button id="vote-btn-<%=poll._id%>" class="left btn waves-effect waves-light" type="submit" value="Vote">Vote
                                 <i class="material-icons right">send</i>
                             </button>
                         </form>
@@ -33,18 +33,49 @@
     </div>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 <script>
         var vote = function (event) {
+            event.preventDefault();
             var pollId = event.target.id;
             var choice = event.target.optionsRadios.value;
-            axios.post('/' + pollId + '/vote', {choice: choice});
+            // The first element below is used to find the input element with choice made bt user and
+            // the third element is the id of choice to be passed to post route.
+            var parentForm = event.target;
+            var choiceElement = $(parentForm).find("input[value="+choice+"]")[0];
+            var choiceId = $(choiceElement).data("id");
 
-            // disable the button, so a user san't vote twice
+            // disable the button, so a user can't vote twice
+            axios.post('/' + pollId + '/vote', {choice: choice, choiceId: choiceId, socketId: socketId});
             document.querySelector('#vote-btn-' + pollId).disabled = true;
             var voteCount = document.querySelector('#vote-count-' + pollId + '-' + choice);
             voteCount.textContent++;
             voteCount.style.color = 'green';
             voteCount.style.fontWeight = '900';
         };
-    </script>
+</script>
+<script>
+var pusher = new Pusher('9bf58a2a18527f003eb6', { cluster: 'us2' });
+var socketId;
+
+// retrieve the socket ID once we are connected
+pusher.connection.bind('connected', function() {
+    socketId = pusher.connection.socket_id;
+});
+
+pusher.subscribe('poll-events')
+        .bind('vote', function (data) {
+            var pollId = data.pollId;
+            var choice = data.choice;
+            var choiceId = data.choiceId;
+            var voteCount = document.querySelector('#vote-count-' + pollId + '-' + choice);
+            voteCount.textContent++;
+            // we'll flash the colour for a moment
+            var color = voteCount.style.color;
+            setTimeout(function () {
+                voteCount.style.color = color;
+            }, 2000);
+            voteCount.style.color = 'green';
+        });
+</script>
 <% include partials/footer %>

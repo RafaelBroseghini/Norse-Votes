@@ -21,12 +21,27 @@ router.get("/", function(req, res, next){
 })
 
 router.post('/:pollId/vote', (req, res, next) => {
-  const choice = req.body.choice;
-  const identifier = `choices.${choice}.votes`;
-  console.log(identifier);
+  const choiceId = req.body.choiceId;
+  console.log(choiceId);
   
+  const choice = req.body.choice;
+  const identifier = `choices.${choiceId}.votes`;  
+  console.log(identifier)
   Poll.findByIdAndUpdate({_id: req.params.pollId}, {$inc: {[identifier]: 1}}, {}, (err, numberAffected) => {
-      res.send('');
+    console.log(numberAffected)
+    
+    let Pusher = require('pusher');
+    let pusher = new Pusher({
+      appId: process.env.PUSHER_APP_ID,
+      key: process.env.PUSHER_APP_KEY,
+      secret: process.env.PUSHER_APP_SECRET,
+      cluster: process.env.PUSHER_APP_CLUSTER
+    });
+
+    let payload = { pollId: req.params.pollId, choice: choice };
+    pusher.trigger('poll-events', 'vote', payload, req.body.socketId);
+
+    res.send('');
   });
 });
 
