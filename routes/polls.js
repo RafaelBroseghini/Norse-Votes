@@ -20,7 +20,7 @@ router.get("/", function(req, res, next){
   // res.render("index")
 })
 
-router.post('/:pollId/vote', (req, res, next) => {
+router.post('/:pollId/vote', isLoggedIn, (req, res, next) => {
   const choiceId = req.body.choiceId;
   console.log(choiceId);
   
@@ -63,7 +63,7 @@ router.post('/:pollId/vote', (req, res, next) => {
 });
 
 
-router.get("/new", function(req, res, next){
+router.get("/new", isLoggedIn, function(req, res, next){
   res.render("polls/new")
 })
 
@@ -85,6 +85,14 @@ router.post("/new", function(req, res, next){
     res.redirect("/polls")
   })
 })
+
+function isLoggedIn(req, res, next){
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.redirect("/login");
+  }
+}
 
 
 module.exports = router;
