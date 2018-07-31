@@ -12,22 +12,30 @@ router.get("/", function(req, res){
 
 //register route
 router.get("/register", function(req, res){
-  res.render("register")
+  res.render("register", {message: false})
 })
 
 //create user
 router.post("/register", function(req, res){
-  var newUser = new User({username: req.body.username, email: req.body.email})
-  User.register(newUser, req.body.password, function(err, user){
-    if (err) {
-      console.log(err)
-      return res.render("register")
-    } else {
-      passport.authenticate("local")(req, res, function() {
-        res.redirect("/polls")
-      })
-    }
-  });
+  User.findOne({email: req.param.email})
+  .then(function(user) {
+    if (user) {
+      console.log("User already exists");
+      
+      res.render("register", {message: 'User with email: '+req.param.email+' already exists.'});
+    } 
+    var newUser = new User({username: req.body.username, email: req.body.email})
+    User.register(newUser, req.body.password, function(err, user){
+      if (err) {
+        console.log(err)
+        return res.render("register", {message: 'User with username: '+req.param.username+' already exists.'})
+      } else {
+        passport.authenticate("local")(req, res, function() {
+          res.redirect("/polls")
+        })
+      }
+    });
+  })
 })
 
 //Show login form

@@ -7,7 +7,8 @@ let pollSchema = new mongoose.Schema({
     value: String,
     votes: Number
     }
-  ]
+  ],
+  timestamp : { type : Date, default: Date.now }
 })
 
 module.exports = mongoose.model("Poll", pollSchema);
