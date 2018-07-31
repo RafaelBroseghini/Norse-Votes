@@ -6,8 +6,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose");
 var Poll     = require("./models/poll");
+var User = require("./models/user")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var passport    = require("passport");
+var localStrategy = require("passport-local");
 
 var app = express();
 
@@ -23,6 +26,27 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//PASSPORT CONFIGURATION.
+app.use(require("express-session")({
+  secret: "may the norse be with you",
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+app.use(function(req,res,next){
+  res.locals.currentUser = req.user;
+  next();
+})
+
+//  Routing.
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
