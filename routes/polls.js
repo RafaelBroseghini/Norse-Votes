@@ -6,7 +6,7 @@ var Poll = require("../models/poll");
 
 /* GET home page. */
 
-router.get("/", function(req, res, next){
+router.get("/", isLoggedIn, function(req, res, next){
   
   Poll.find({}, function(err, polls){
     
@@ -20,7 +20,7 @@ router.get("/", function(req, res, next){
   // res.render("index")
 })
 
-router.post('/:pollId/vote', (req, res, next) => {
+router.post('/:pollId/vote', isLoggedIn, (req, res, next) => {
   const choiceId = req.body.choiceId;
   console.log(choiceId);
   
@@ -63,11 +63,11 @@ router.post('/:pollId/vote', (req, res, next) => {
 });
 
 
-router.get("/new", function(req, res, next){
+router.get("/new", isLoggedIn, function(req, res, next){
   res.render("polls/new")
 })
 
-router.post("/new", function(req, res, next){
+router.post("/new", isLoggedIn, function(req, res, next){
   let topicChosen = req.body.topic,
   choice1 = req.body.choice1,
   choice2 = req.body.choice2,
