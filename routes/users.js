@@ -7,7 +7,7 @@ var User = require("../models/user");
 
 //root route
 router.get("/", function(req, res){
-  res.render("landing")
+  res.render("landing", {currentUser:req.user})
 })
 
 //register route
