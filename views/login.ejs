@@ -1,5 +1,28 @@
 <% include partials/header %>
 
+<div class="container">
+    <div class="card-panel grey lighten-5 z-depth-1">
+        <div class="row">
+            <form class="col s12" action="/register" method="POST">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input placeholder="@FunkyPizzaDough" name="username" type="text" class="validate">
+                        <label for="username">Username</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="password" type="password" class="validate">
+                    <label for="password">Password</label>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action">Login
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
 <script src="/javascripts/landing.js"></script>

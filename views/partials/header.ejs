@@ -12,12 +12,15 @@
     <!--    Migrate in line style to separate file.    -->
       <div class="nav-wrapper" style="font-family: Montserrat;">
         <a href="#" class="brand-logo">Norse Votes</a>
-        <!-- <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
         <% if (!currentUser) {%>
           <ul id="nav-mobile" class="right">
             <li><a href="/login"><i class="material-icons left">person</i>Login</a></li>
             <li><a href="/register"><i class="material-icons right">person_add</i>Register</a></li>
           </ul>
+        <%} else {%>
+        <ul id="nav-mobile" class="right">
+          <li><a href="/logout"><i class="material-icons right">exit_to_app</i>Logout</a></li>
+        </ul>
         <%}%>
       </div>
   </div>

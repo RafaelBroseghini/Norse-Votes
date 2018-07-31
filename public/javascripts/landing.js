@@ -24,5 +24,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //  Character counter new.ejs
 $(document).ready(function() {
-  $("input[name='topic'], input[name='choice1'],input[name='choice2'],input[name='choice3']").characterCounter();
+  $("input[type='text'], input[type='password']").characterCounter();
 });
