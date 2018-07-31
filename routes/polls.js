@@ -25,8 +25,6 @@ router.post('/:pollId/vote', (req, res, next) => {
   console.log(choiceId);
   
   const choice = req.body.choice;
-  const identifier = `choices[0].votes`;  
-  // console.log(identifier)
 
   Poll.findById(
     req.params.pollId,
@@ -84,7 +82,7 @@ router.post("/new", function(req, res, next){
   ]
   }, function(err, pollCreated){
     console.log(pollCreated);
-    res.redirect("polls/")
+    res.redirect("/polls")
   })
 })
 

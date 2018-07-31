@@ -47,7 +47,7 @@
             var choiceId = $(choiceElement).data("id");
 
             // disable the button, so a user can't vote twice
-            axios.post('/' + pollId + '/vote', {choice: choice, choiceId: choiceId, socketId: socketId});
+            axios.post('polls/' + pollId + '/vote', {choice: choice, choiceId: choiceId, socketId: socketId});
             document.querySelector('#vote-btn-' + pollId).disabled = true;
             var voteCount = document.querySelector('#vote-count-' + pollId + '-' + choice);
             voteCount.textContent++;
