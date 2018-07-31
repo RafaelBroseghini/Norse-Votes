@@ -7,8 +7,8 @@ var logger = require('morgan');
 var mongoose = require("mongoose");
 var Poll     = require("./models/poll");
 var User = require("./models/user")
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var pollRoutes = require('./routes/polls');
+var usersRoutes = require('./routes/users');
 var passport    = require("passport");
 var localStrategy = require("passport-local");
 
@@ -47,8 +47,8 @@ app.use(function(req,res,next){
 })
 
 //  Routing.
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', usersRoutes);
+app.use('/polls', pollRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

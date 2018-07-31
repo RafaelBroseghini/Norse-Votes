@@ -14,7 +14,7 @@ router.get("/", function(req, res, next){
       res.send("404!")
       
     } else {   
-      res.render("index.ejs", {polls: polls})
+      res.render("polls/index", {polls: polls})
     }
   })
   // res.render("index")
@@ -66,7 +66,7 @@ router.post('/:pollId/vote', (req, res, next) => {
 
 
 router.get("/new", function(req, res, next){
-  res.render("new")
+  res.render("polls/new")
 })
 
 router.post("/new", function(req, res, next){
@@ -84,7 +84,7 @@ router.post("/new", function(req, res, next){
   ]
   }, function(err, pollCreated){
     console.log(pollCreated);
-    res.redirect("/")
+    res.redirect("polls/")
   })
 })
 
