@@ -1,9 +1,10 @@
+// Sidenav header.ejs
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.sidenav');
   var instances = M.Sidenav.init(elems);
 });
 
-
+// Floating Action Button header.ejs
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.fixed-action-btn');
   var instances = M.FloatingActionButton.init(elems, {
@@ -12,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// Carousel index.ejs
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.carousel');
   var instance = M.Carousel.init(elems, {
@@ -20,17 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+//  Character counter new.ejs
 $(document).ready(function() {
   $("input[name='topic'], input[name='choice1'],input[name='choice2'],input[name='choice3']").characterCounter();
 });
-
-// var instance = M.Carousel.init({
-//   fullWidth: true,
-//   indicators: true
-// });
-
-// Or with jQuery
-
-// $(document).ready(function(){
-//   $('.sidenav').sidenav();
-// });
