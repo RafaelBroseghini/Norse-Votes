@@ -24,16 +24,11 @@ router.post("/register", function(req, res){
       
       res.render("register", {message: 'User with email: '+req.param.email+' already exists.'});
     } 
-    var newUser = new User({username: req.body.username, email: req.body.email})
+    var newUser = new User({email: req.body.email})
     User.register(newUser, req.body.password, function(err, user){
-      if (err) {
-        console.log(err)
-        return res.render("register", {message: 'User with username: '+req.param.username+' already exists.'})
-      } else {
         passport.authenticate("local")(req, res, function() {
           res.redirect("/polls")
         })
-      }
     });
   })
 })
@@ -43,12 +38,21 @@ router.get("/login", function(req, res){
   res.render("login")
 })
 
-//Login
+//Login locally
 router.post("/login", passport.authenticate("local", 
                    {
                      successRedirect:"/polls", 
                      failureRedirect: "/login"
                    }), function(req, res){
+});
+
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+router.get('/auth/google/callback', 
+passport.authenticate('google', { failureRedirect: '/login' }),
+function(req, res) {
+  res.redirect('/polls');
 });
 
 

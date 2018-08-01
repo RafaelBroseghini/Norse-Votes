@@ -4,12 +4,12 @@
     <div class="card-panel blue lighten-5 z-depth-1">
         <div class="row">
             <form class="col s12" action="/register" method="POST">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="input-field col s6">
                         <input placeholder="@FunkyPizzaDough" name="username" type="text" class="validate" data-length="15" maxlength="15">
                         <label for="username">Username</label>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="input-field col s12">
                         <input name="email" type="email" class="validate">
@@ -26,8 +26,16 @@
                     <i class="material-icons right">send</i>
                 </button>
             </form>
+            </div>
         </div>
-    </div>
+        <div class="card-panel white lighten-5 z-depth-1">
+            <h5>Sign in with:</h5>
+            <div class="row">
+                <a class="btn waves-effect waves-light red btn-large" href="/auth/google">
+                    <i class="devicon-google-plain-wordmark"></i>
+                </a>
+            </div>
+        </div>
 </div>
 
 <script

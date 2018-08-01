@@ -3,9 +3,17 @@ var mongoose = require("mongoose");
 var passportLocalMongoose = require("passport-local-mongoose");
 
 var userSchema = mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
+    local: 
+        {
+            email: { type: String},
+            password: { type: String},
+        },
+    google: 
+        {
+            id: { type: String}, 
+            token: { type: String}, 
+            name: { type: String},
+        },
     polls: [      
         {
              type: mongoose.Schema.Types.ObjectId,
