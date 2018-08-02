@@ -1,6 +1,9 @@
 # Norse-Votes :mega:
 * Mobile first, real time voting application developed to engage the Luther College Community.
 
+## Usage
+* Well, this is a private repo as of now.
+
 ## Built with
 * Node.js
 * Express.js
@@ -9,8 +12,9 @@
 * Materializecss
 
 ## Features
+* Mobile first design with [Materializecss](https://materializecss.com/)
 * Real time event propagation with Pusher
-* AuthO
+* Google OAuth 2.0
 
 ## Contributing
 1.  Fork this repo! :spaghetti:
