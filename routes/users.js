@@ -35,7 +35,7 @@ router.post('/login', passport.authenticate('local-login', {
 
 // Google OAuth 2.0 
 router.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+  passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', 
 passport.authenticate('google', { failureRedirect: '/login' }),
