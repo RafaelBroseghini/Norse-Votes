@@ -12,43 +12,35 @@ router.get("/", function(req, res){
 
 //register route
 router.get("/register", function(req, res){
-  res.render("register", {message: false})
+  res.render("register", { message: req.flash('signupMessage') })
 })
 
-//create user
-router.post("/register", function(req, res){
-  User.findOne({email: req.param.email})
-  .then(function(user) {
-    if (user) {
-      console.log("User already exists");
-      
-      res.render("register", {message: 'User with email: '+req.param.email+' already exists.'});
-    } 
-    var newUser = new User({username: req.body.username, email: req.body.email})
-    User.register(newUser, req.body.password, function(err, user){
-      if (err) {
-        console.log(err)
-        return res.render("register", {message: 'User with username: '+req.param.username+' already exists.'})
-      } else {
-        passport.authenticate("local")(req, res, function() {
-          res.redirect("/polls")
-        })
-      }
-    });
-  })
-})
+router.post("/register", passport.authenticate("local-signup", {
+  successRedirect: "/polls",
+  failureRedirect: "/register",
+  failureFlash : true
+}));
 
 //Show login form
 router.get("/login", function(req, res){
-  res.render("login")
+  res.render("login", {message: req.flash('loginMessage')})
 })
 
-//Login
-router.post("/login", passport.authenticate("local", 
-                   {
-                     successRedirect:"/polls", 
-                     failureRedirect: "/login"
-                   }), function(req, res){
+//Login locally
+router.post('/login', passport.authenticate('local-login', {
+  successRedirect : '/polls', // redirect to the secure profile section
+  failureRedirect : '/login',
+  failureFlash : true // redirect back to the signup page if there is an error
+}));
+
+// Google OAuth 2.0 
+router.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+router.get('/auth/google/callback', 
+passport.authenticate('google', { failureRedirect: '/login' }),
+function(req, res) {
+  res.redirect('/polls');
 });
 
 

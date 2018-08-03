@@ -1,20 +1,22 @@
 require('dotenv').config();
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require("mongoose");
-var Poll     = require("./models/poll");
-var User = require("./models/user")
-var pollRoutes = require('./routes/polls');
-var usersRoutes = require('./routes/users');
-var passport    = require("passport");
-var localStrategy = require("passport-local");
+var createError     = require('http-errors');
+var express         = require('express');
+var app             = express();
+var mongoose        = require("mongoose");
+var passport        = require("passport");
+var flash           = require('connect-flash');
+var path            = require('path');
+var cookieParser    = require('cookie-parser');
+var logger          = require('morgan');
+var pollRoutes  = require('./routes/polls')
+var usersRoutes = require('./routes/users')
 
-var app = express();
 
 mongoose.connect("mongodb://localhost:27017/norse-votes", { useNewUrlParser: true });
+// require('./config/passport')(passport); // pass passport for configuration
+
+// var pollRoutes  = require('./routes/polls')(app, passport);
+// var usersRoutes = require('./routes/users')(app, passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,7 +28,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 //PASSPORT CONFIGURATION.
 app.use(require("express-session")({
   secret: "may the norse be with you",
@@ -36,15 +37,16 @@ app.use(require("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+app.use(flash()); 
+
+require('./config/passport')(passport); // pass passport for configuration
 
 
 app.use(function(req,res,next){
   res.locals.currentUser = req.user;
   next();
 })
+
 
 //  Routing.
 app.use('/', usersRoutes);

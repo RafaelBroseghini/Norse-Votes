@@ -1,13 +1,16 @@
 <% include partials/header %>
 
 <div class="container">
+    <% if (message.length > 0) { %>
+    <div class="card-panel red darken-2 z-depth-5"><%= message %></div>
+    <% } %>
     <div class="card-panel grey lighten-5 z-depth-1">
         <div class="row">
             <form class="col s12" action="/login" method="POST">
                 <div class="row">
                     <div class="input-field col s6">
-                        <input placeholder="@FunkyPizzaDough" name="username" type="text" class="validate">
-                        <label for="username">Username</label>
+                        <input placeholder="@FunkyPizzaDough" name="email" type="email" class="validate">
+                        <label for="email">Username</label>
                     </div>
                 </div>
                 <div class="row">
