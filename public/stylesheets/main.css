@@ -1,4 +1,6 @@
-.left-button{
-  left: -20px;
-  /* right: auto; */
- }
+body {
+  background-color: whitesmoke;
+}
+nav {
+  background-color: #1565c0;
+}
