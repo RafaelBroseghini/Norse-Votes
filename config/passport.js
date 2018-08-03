@@ -112,7 +112,7 @@ module.exports = function(passport) {
             newUser.google.id    = profile.id;
             newUser.google.token = accessToken;
             newUser.google.name  = profile.displayName;
-            // newUser.google.email = profile.emails.value; // pull the first email
+            newUser.google.email = profile.emails[0].value; // pull the first email
     
             // save the user
             newUser.save(function(err) {
