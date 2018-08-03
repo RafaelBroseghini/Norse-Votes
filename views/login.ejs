@@ -1,6 +1,9 @@
 <% include partials/header %>
 
 <div class="container">
+    <% if (message.length > 0) { %>
+    <div class="card-panel red darken-2 z-depth-5"><%= message %></div>
+    <% } %>
     <div class="card-panel grey lighten-5 z-depth-1">
         <div class="row">
             <form class="col s12" action="/login" method="POST">
