@@ -8,8 +8,8 @@ var flash           = require('connect-flash');
 var path            = require('path');
 var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
-var pollRoutes  = require('./routes/polls')
-var usersRoutes = require('./routes/users')
+var pollRoutes      = require('./routes/polls')
+var usersRoutes     = require('./routes/users')
 
 
 mongoose.connect("mongodb://localhost:27017/norse-votes", { useNewUrlParser: true });
@@ -25,14 +25,14 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("may the norse be with you"));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //PASSPORT CONFIGURATION.
 app.use(require("express-session")({
   secret: "may the norse be with you",
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  saveUninitialized: true
 }));
 
 app.use(passport.initialize());
@@ -46,7 +46,6 @@ app.use(function(req,res,next){
   res.locals.currentUser = req.user;
   next();
 })
-
 
 //  Routing.
 app.use('/', usersRoutes);

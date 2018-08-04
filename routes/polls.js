@@ -2,64 +2,73 @@ var express = require("express");
 
 var router = express.Router();
 
+var User = require("../models/user");
 var Poll = require("../models/poll");
 
 /* GET home page. */
 
 router.get("/", isLoggedIn, function(req, res, next){
-  
   Poll.find({}, function(err, polls){
-    
     if (err) {
-      res.send("404!")
-      
+      res.send("404!") 
     } else {   
       res.render("polls/index", {polls: polls})
     }
   })
-  // res.render("index")
+})
+
+router.get("/polls", isLoggedIn, function(req, res){
+  console.log(req.user.polls);
+  
+  res.send(req.user.polls)
 })
 
 router.post('/:pollId/vote', isLoggedIn, (req, res, next) => {
-  const choiceId = req.body.choiceId;
-  console.log(choiceId);
+  const userId = req.user._id;
+  User.findById(userId, function(err, user){
+    _allPolls = user.polls;
+    _allPolls.push(req.params.pollId)
+    user.update({polls: _allPolls}, function(err){
+      console.log(user.polls);
+
+      const choiceId = req.body.choiceId;  
+      const choice = req.body.choice;
+      Poll.findById(
+        req.params.pollId,
+        function (err, _poll) {
+            console.log(_poll);
+            
+            /** Temporarily store choices in a new variable because we cannot directly modify the document */
+            let _updateChoiceOptions = _poll.choices;
+            // console.log(_updateChoiceOptions);
+            
+            /** We need to iterate over the choices array  */
+            _updateChoiceOptions.forEach(function (_label) {
+    
+              if (_label._id == choiceId) {            
+                ++_label.votes;
+              } 
+            });
+    
+            /** Update the documents labelOptions property with the temporary one we've created */
+            _poll.update({choices: _updateChoiceOptions}, function (err) {
+              let Pusher = require('pusher');
+              let pusher = new Pusher({
+                appId: process.env.PUSHER_APP_ID,
+                key: process.env.PUSHER_APP_KEY,
+                secret: process.env.PUSHER_APP_SECRET,
+                cluster: process.env.PUSHER_APP_CLUSTER
+              });
+          
+              let payload = { pollId: req.params.pollId, choice: choice };
+              pusher.trigger('poll-events', 'vote', payload, req.body.socketId);
+          
+              res.send('');
+            });
+        });
+    })
+  })
   
-  const choice = req.body.choice;
-
-  Poll.findById(
-    req.params.pollId,
-    function (err, _poll) {
-        console.log(_poll);
-        
-        /** Temporarily store choices in a new variable because we cannot directly modify the document */
-        let _updateChoiceOptions = _poll.choices;
-        // console.log(_updateChoiceOptions);
-        
-        /** We need to iterate over the choices array to check where Bob is */
-        _updateChoiceOptions.forEach(function (_label) {
-
-          if (_label._id == choiceId) {            
-            ++_label.votes;
-          } 
-
-        });
-
-        /** Update the documents labelOptions property with the temporary one we've created */
-        _poll.update({choices: _updateChoiceOptions}, function (err) {
-          let Pusher = require('pusher');
-          let pusher = new Pusher({
-            appId: process.env.PUSHER_APP_ID,
-            key: process.env.PUSHER_APP_KEY,
-            secret: process.env.PUSHER_APP_SECRET,
-            cluster: process.env.PUSHER_APP_CLUSTER
-          });
-      
-          let payload = { pollId: req.params.pollId, choice: choice };
-          pusher.trigger('poll-events', 'vote', payload, req.body.socketId);
-      
-          res.send('');
-        });
-    });
 });
 
 
@@ -87,7 +96,7 @@ router.post("/new", isLoggedIn, function(req, res, next){
 })
 
 function isLoggedIn(req, res, next){
-  if (req.isAuthenticated()) {
+  if (req.user) {
     return next();
   } else {
     res.redirect("/login");
