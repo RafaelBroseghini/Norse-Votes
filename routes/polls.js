@@ -17,7 +17,7 @@ router.get("/", isLoggedIn, function(req, res, next){
   })
 })
 
-router.get("/polls", isLoggedIn, function(req, res){
+router.get("/mypolls", isLoggedIn, function(req, res){
   console.log(req.user.polls);
   
   res.send(req.user.polls)

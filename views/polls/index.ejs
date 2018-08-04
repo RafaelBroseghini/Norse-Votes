@@ -23,7 +23,7 @@
                                     </label>
                                 </p>                                    
                                 <%})%>
-                            <button id="vote-btn-<%=poll._id%>" class="right btn waves-effect waves-light" type="submit" value="Vote">Vote
+                            <button id="vote-btn-<%=poll._id%>" class="right btn waves-effect waves-light" type="submit" value="<%=poll._id%>">Vote
                                 <i class="material-icons right">send</i>
                             </button>
                         </form>
@@ -37,4 +37,5 @@
 <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
 <script src="/javascripts/AJAX.js"></script>
 <script src="/javascripts/pusherPropagate.js"></script>
+<script src="/javascripts/blockPolls.js"></script>
 <% include ../partials/footer %>
