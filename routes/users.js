@@ -31,7 +31,8 @@ router.post('/login', passport.authenticate('local-login', {
   successRedirect : '/polls', // redirect to the secure profile section
   failureRedirect : '/login',
   failureFlash : true // redirect back to the signup page if there is an error
-}));
+  })
+);
 
 // Google OAuth 2.0 
 router.get('/auth/google',

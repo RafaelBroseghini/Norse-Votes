@@ -10,6 +10,7 @@ var cookieParser    = require('cookie-parser');
 var logger          = require('morgan');
 var pollRoutes      = require('./routes/polls')
 var usersRoutes     = require('./routes/users')
+var session         = require("express-session");
 
 
 mongoose.connect("mongodb://localhost:27017/norse-votes", { useNewUrlParser: true });
@@ -29,9 +30,9 @@ app.use(cookieParser("may the norse be with you"));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //PASSPORT CONFIGURATION.
-app.use(require("express-session")({
+app.use(session({
   secret: "may the norse be with you",
-  resave: true,
+  resave: false,
   saveUninitialized: true
 }));
 
