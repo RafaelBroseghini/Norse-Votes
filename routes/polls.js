@@ -32,13 +32,16 @@ router.get("/newest", isLoggedIn, function(req, res){
       $gte: new Date(new Date().getTime() - (5 * 24 * 60 * 60 * 1000))
       }
     }, function(err, polls){
-      res.send(polls);
+      console.log(polls);
+      
+      res.render("polls/index", {polls:polls})
     })
   });
 
 router.get("/trending", isLoggedIn, function(req, res){
   res.send("You have reached the trending route.")
 })
+//////////////////////////////
 
 router.post('/:pollId/vote', isLoggedIn, (req, res, next) => {
   const userId = req.user._id;

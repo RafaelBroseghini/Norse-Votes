@@ -1,6 +1,8 @@
 // Makes an axions "fetch" request to the server
 // that returns all the polls the user has ever voted on.
 function passPollIdsToDisableButtons(){
+    console.log(window.location.href);
+    
     axios.get('polls/mypolls')
     .then(function(response){
         return response.data
