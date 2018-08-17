@@ -18,10 +18,13 @@ router.get("/", isLoggedIn, function(req, res, next){
 })
 
 // Custom poll routes: user specific created polls, newest and trending.
-router.get("/mypolls", isLoggedIn, function(req, res){
-  console.log(req.user.polls);
-  
-  res.send(req.user.polls)
+router.get("/mypolls", isLoggedIn, function(err, req, res){
+  if (err) {
+    res.redirect("/")
+  } else {
+    console.log(req.user.polls);
+    res.send(req.user.polls)
+  }
 })
 
 router.get("/newest", isLoggedIn, function(req, res){
@@ -92,8 +95,12 @@ router.post('/:pollId/vote', isLoggedIn, (req, res, next) => {
 });
 
 
-router.get("/new", isLoggedIn, function(req, res, next){
-  res.render("polls/new")
+router.get("/new", isLoggedIn, function(err, req, res, next){
+  if (err) {
+    res.redirect("/")
+  } else {
+    res.render("polls/new")
+  }
 })
 
 router.post("/new", isLoggedIn, function(req, res, next){
