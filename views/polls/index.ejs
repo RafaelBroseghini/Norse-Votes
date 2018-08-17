@@ -23,6 +23,7 @@
                                     </label>
                                 </p>                                    
                                 <%})%>
+                            <button class="btn waves-effect waves-light left"><%=poll.timestamp.toISOString().split("T")[0]%></button>
                             <button id="vote-btn-<%=poll._id%>" class="right btn waves-effect waves-light" type="submit" value="<%=poll._id%>">Vote
                                 <i class="material-icons right">send</i>
                             </button>
