@@ -9,6 +9,7 @@
 * Express.js
 * MongoDB
 * Pusher
+* Axios
 * Materializecss
 
 ## Features

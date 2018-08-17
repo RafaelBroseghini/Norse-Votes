@@ -17,7 +17,7 @@ router.get("/", isLoggedIn, function(req, res, next){
   })
 })
 
-// Custom poll routes: user specific created polls, newest and trending.
+// Custom poll routes: user specific voted polls, newest and trending.
 router.get("/mypolls", isLoggedIn, function(err, req, res){
   if (err) {
     res.redirect("/")
