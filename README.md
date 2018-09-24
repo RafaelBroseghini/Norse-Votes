@@ -2,7 +2,8 @@
 * Mobile first, real time voting application developed to engage the Luther College Community.
 
 ## Usage
-* Well, this is a private repo as of now.
+* Clone this repo.
+* Vote away :smile:
 
 ## Built with
 * Node.js
