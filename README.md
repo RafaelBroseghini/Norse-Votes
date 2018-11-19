@@ -2,7 +2,7 @@
 * Mobile first, real time voting application developed to engage the Luther College Community.
 
 ## Usage
-* Clone this repo.
+* Clone this repository!
 * Vote away :smile:
 
 ## Built with
