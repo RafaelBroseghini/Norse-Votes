@@ -5,7 +5,7 @@
 * Clone this repository!
 * Vote away :smile:
 
-## Built with
+## Built with:
 * Node.js
 * Express.js
 * MongoDB
@@ -13,12 +13,12 @@
 * Axios
 * Materializecss
 
-## Features
+## Features:
 * Mobile first design with [Materializecss](https://materializecss.com/)
 * Real time event propagation with Pusher
 * Google OAuth 2.0
 
-## Contributing
+## Contributing:
 1.  Fork this repo! :spaghetti:
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -m 'Add some feature'`
